@@ -1,0 +1,54 @@
+<html>
+	<body>
+		<a href="#" id="previous">Previous</a> 
+		<a href="#" id="play">Play</a> 
+		<a href="#" id="pause">Pause</a> 
+		<a href="#" id="next">Next</a> 
+		<br>
+		<div id="logger"></div>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+			var items = {};
+			var socket = io.connect();
+			socket.on('serverItems', function (data) {
+				for( i in data.items ) {
+					items[i] = {};
+					for( k in data.items[i] ) {
+						items[i][k] = data.items[i][k];
+					}
+					$('#logger').prepend('<a href="#" onclick="addItem(\''+i+'\');">'+data.items[i].title+'</a><br>');
+				}
+			});
+			socket.on('serverPlaylistAddItem', function (data) {
+				$('#logger').prepend('Added '+data.hash+' = '+items[data.hash].title+'<br>');
+			});
+			socket.on('serverPlayerStatus', function (data) {
+				var song = '';
+				if( data.playerStatus.currentItem != null && 
+					items[data.playerStatus.currentItem] ) {
+					song = items[data.playerStatus.currentItem].title;
+				}
+				$('#logger').prepend('Status update: '+data.playerStatus.state+' / '+song+'<br>');
+			});
+			function addItem(hash) {
+				console.log('a');
+				socket.emit('clientPlaylistAddItem', {
+					hash: hash
+				});
+			}
+			$('#play').click(function() {
+				socket.emit('clientPlay',{});
+			});
+			$('#pause').click(function() {
+				socket.emit('clientPause',{});
+			});
+			$('#previous').click(function() {
+				socket.emit('clientPrevious',{});
+			});
+			$('#next').click(function() {
+				socket.emit('clientNext',{});
+			});
+		</script>
+	</body>
+</html>
