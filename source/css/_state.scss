@@ -1,0 +1,22 @@
+// GRID
+// sidebar and main content areas
+#l-primary, #l-sidebar {
+	@media (max-width:$small) {
+		width: 100%;
+		padding: 0;
+	}
+}
+.l-container { // create padding on edge of screen, but not inside
+	padding: 0 $outer-padding-mobile;
+	.l-container {
+		padding: 0;
+	}
+}
+
+.m-primary-navigation {
+	a:active {
+		@include background-image(linear-gradient(rgb(213, 213, 213), rgb(255, 255, 255)));
+	}
+}
+
+// end generics
