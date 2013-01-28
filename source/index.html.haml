@@ -1,0 +1,35 @@
+%header
+	.m-meta-bar
+		.l-container
+			%ul.m-meta-list
+				%li
+					%a.m-meta-item{ :href => '#' }
+						%i.icon-cog
+						settings
+
+.l-container
+	#l-sidebar
+		%nav#m-filter-menu
+			.l-sidebar-list-group
+				%h2.title
+					%a.m-hr-a{ :href => '#' }
+						%i.icon-list
+						Playlists
+				%ul.m-vertical-list
+					- for i in 1..5
+						%li=link_to lorem.words(2), '#'
+
+	#l-primary
+		%nav.m-primary-navigation
+			%a.m-hr-a{ :href => '#' }
+				%i.icon-user
+				Artists
+			%a.m-hr-a{ :href => '#' }
+				%i.icon-music
+				Songs
+		%ul.m-list
+			- for i in 1..60
+				%li.row
+					%a.row-action{ :href => '#' }
+						%i.icon-play-circle2.icon
+						=lorem.words 4

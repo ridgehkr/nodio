@@ -1,0 +1,46 @@
+//=====================================
+// for modules only found in the header
+//=====================================
+
+.m-meta-bar {
+	background: #222;
+	color: white;
+	margin: 0;
+	padding: 8px 0;
+	a {
+		@include link-colors(#fff, #fff, #fff, #fff, #fff);
+	}
+}
+
+.m-meta-list {
+	font-size: 0;
+	margin: 0;
+	li {
+		@include inline-block;
+		font-size: $text-size;
+		margin: 0;
+		line-height: 12px;
+		& + li {
+			margin-left: 22px;
+		}
+	}
+}
+.m-meta-item {
+	font-size: 14px;
+	text-decoration: none;
+	padding: 4px 6px;
+	@include inline-block;
+	i[class^='icon-'] {
+		@include transition-duration(1s);
+		width: em(17px);
+		height: em(17px);
+		@include inline-block;
+		line-height: em(17px);
+		vertical-align: middle;
+	}
+	&:hover {
+		i[class^='icon-'] {
+			@include rotate(180deg);
+		}
+	}
+}

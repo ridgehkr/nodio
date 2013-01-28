@@ -1,0 +1,12 @@
+!!! 5
+%html{ :lang => "en", :class => "no-js" }
+
+	- $siteTitle = "Nodio"
+
+	=partial "common/document-head", :locals => { :site_title => $siteTitle }
+
+	%body
+		#l-main.main{ :role => "main" }
+			=yield
+
+		= partial "common/footer"

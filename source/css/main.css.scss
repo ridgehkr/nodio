@@ -1,0 +1,68 @@
+@charset "utf-8";
+
+@import "compass/css3";
+@import "compass/typography";
+@import "compass/layout/stretching";
+@import "compass/utilities";
+
+// ===================
+// FUNCTIONS
+// ===================
+
+// convert an inner width to a percentage
+@function percent($target, $context) {
+	@return ($target / $context) * 100%
+}
+
+// convert a pixel value to em
+@function em($px, $base: $base-font-size) {
+	@return ($px / $base) * 1em;
+}
+// END functions
+
+// ===================
+// MIXINS
+// ===================
+
+// clearfix
+@mixin clear {
+	&:after {
+		content: "";
+		display: block;
+		height: 0;
+		clear: both;
+		width: 100%;
+	}
+	* html & { height: 1px }
+}
+// END mixins
+
+// font style variables
+$serif: Georgia, 'Times New Roman', Times, serif;
+$sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$text-color: rgb(21, 31, 46); // #222;
+$text-color-quiet: #999;
+$text-size: 16px;
+$default-text-shadow-color: rgba(0,0,0,0.7); // rgb(190, 190, 220);
+$default-text-shadow-blur: 1px;
+$default-text-shadow-v-offset: 1px;
+
+// sizing
+$outer-width: 1024px;
+$outer-padding: 12px;
+$inner-padding: 12px;
+$outer-padding-mobile: 12px;
+
+// breakpoints (from a max-width perspective)
+$smallest: 420px;
+$small: 620px;
+$medium: 820px;
+$large: $outer-width - 1px;
+
+// using the SMACSS approach, and have broken up files accordingly
+@import "base"; // includes Normalize.css
+@import "layout";
+@import "module";
+@import "state";
+
+@import "font-awesome"; // FontAwesome's font icons

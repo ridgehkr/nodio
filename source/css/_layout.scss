@@ -1,0 +1,35 @@
+//================
+// LAYOUT COMPONENTS
+//================
+
+header {
+	margin-bottom: 20px;
+}
+
+// can be used to wrap nearly anything
+.l-container {
+	max-width: $outer-width;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+// wrapper for main content and sidebar areas
+#l-main {
+	font-size: 0;
+}
+
+// sidebar and main content areas
+#l-primary {
+	@include inline-block;
+	font-size: $text-size;
+	width: 78%;
+	vertical-align: top;
+	padding-left: 16px;
+}
+
+#l-sidebar {
+	@include inline-block;
+	font-size: $text-size;
+	width: 21.999999%;
+	vertical-align: top;
+}
