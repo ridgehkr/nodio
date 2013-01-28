@@ -15,9 +15,22 @@ exports.serverItems = (function (socket, items) {
 	});
 });
 
+exports.serverCurrentPlaylist = (function (socket, playlist) {
+	socket.emit('serverCurrentPlaylist', {
+		playlist: playlist
+	});
+});
+
 exports.serverPlaylistCurrentAddItem = (function (socket, hash) {
 	socket.emit('serverPlaylistCurrentAddItem', {
 		hash: hash
+	});
+});
+
+exports.serverPlaylistCurrentMoveItem = (function (socket, indexFrom, indexTo) {
+	socket.emit('serverPlaylistCurrentMoveItem', {
+		indexFrom: indexFrom,
+		indexTo: indexTo
 	});
 });
 
@@ -26,3 +39,4 @@ exports.serverPlayerStatus = (function (socket, playerStatus) {
 		playerStatus: playerStatus
 	});
 });
+

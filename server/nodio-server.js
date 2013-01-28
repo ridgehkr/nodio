@@ -59,7 +59,7 @@ exports = module.exports = function(params) {
 			}
 			_playlist.length = 0;
 			for( i in playlist ) {
-				_playlist[i] = _generateItemHash(playlist[i]);
+				_playlist[i] = _generateItemHash(playlist[i].file);
 			}
 			if( callback ) {
 				callback();
@@ -81,7 +81,7 @@ exports = module.exports = function(params) {
 	// Load up our database.
 	_mpdClient.listallinfo('/',function(err,items) {
 		if( err ) {
-			console.log("ERROR : COULD NOT listallinfo : "+err);
+			throw new Error("ERROR : COULD NOT listallinfo : "+err);
 		}
 		for( i in items ) {
 			if( items[i].directory == null ) {
@@ -92,9 +92,35 @@ exports = module.exports = function(params) {
 		}
 	});
 
+	_mpdClient.on('changed', function(updateEvent) {
+		/*
+		Update Events
+		update: a database update has started or finished.
+		database: the song database has been modified after update.
+		stored_playlist: a stored playlist has been modified.
+		playlist: the current playlist has been modified.
+		output: an audio output has been enabled or disabled.
+		sticker: the sticker database has been modified.
+		subscription: a client has subscribed or unsubscribed to a channel.
+		 */
+		if( updateEvent == "player" || 
+			updateEvent == "mixer" ||
+			updateEvent == "options" ) {
+			_updatePlayerStatus(function() {
+				_socketEvents.serverPlayerStatus(_io.sockets,_playerStatus);
+			});
+		} else if ( updateEvent == "playlist" ) {
+			_updatePlaylist(function() {
+				_socketEvents.serverCurrentPlaylist(_io.sockets, _playlist);
+			});
+		}
+	});
+
 	_io.sockets.on('connection', function (socket) {
 
 		_socketEvents.serverItems(socket, _items);
+
+		_socketEvents.serverCurrentPlaylist(socket, _playlist);
 		
 		socket.on('clientVolume', function (data) {
 			if( data.volume == null ) {
@@ -104,13 +130,8 @@ exports = module.exports = function(params) {
 			if( _playerStatus.state == "play" ) {
 				_mpdClient.setvol(_playerStatus.volume, function (err) {
 					if( err ) {
-						_socketEvents.serverError(socket, "Error setting volume: "+err);
-						console.log(err);
+						_socketEvents.serverError(socket, "Error: setting volume not supported on this installation.");
 					}
-					_updatePlayerStatus(function () {
-						_socketEvents.serverPlayerStatus(socket,_playerStatus);
-						_socketEvents.serverPlayerStatus(socket.broadcast,_playerStatus);
-					});
 				});
 			}
 		});
@@ -119,11 +140,6 @@ exports = module.exports = function(params) {
 			_mpdClient.play(function (err) {
 				if( err ) {
 					_socketEvents.serverError(socket, err);
-				} else {
-					_updatePlayerStatus(function () {
-						_socketEvents.serverPlayerStatus(socket,_playerStatus);
-						_socketEvents.serverPlayerStatus(socket.broadcast,_playerStatus);
-					});
 				}
 			});
 		});
@@ -132,11 +148,6 @@ exports = module.exports = function(params) {
 			_mpdClient.toggle(function (err) {
 				if( err ) {
 					_socketEvents.serverError(socket, err);
-				} else {
-					_updatePlayerStatus(function () {
-						_socketEvents.serverPlayerStatus(socket,_playerStatus);
-						_socketEvents.serverPlayerStatus(socket.broadcast,_playerStatus);
-					});
 				}
 			});
 		});
@@ -145,11 +156,6 @@ exports = module.exports = function(params) {
 			_mpdClient.next(function (err) {
 				if( err ) {
 					_socketEvents.serverError(socket, err);
-				} else {
-					_updatePlayerStatus(function () {
-						_socketEvents.serverPlayerStatus(socket,_playerStatus);
-						_socketEvents.serverPlayerStatus(socket.broadcast,_playerStatus);
-					});
 				}
 			});
 		});
@@ -158,11 +164,6 @@ exports = module.exports = function(params) {
 			_mpdClient.previous(function (err) {
 				if( err ) {
 					_socketEvents.serverError(socket, err);
-				} else {
-					_updatePlayerStatus(function () {
-						_socketEvents.serverPlayerStatus(socket,_playerStatus);
-						_socketEvents.serverPlayerStatus(socket.broadcast,_playerStatus);
-					});
 				}
 			});
 		});
@@ -179,6 +180,24 @@ exports = module.exports = function(params) {
 					}
 				});
 			}
+		});
+
+		socket.on('clientPlaylistCurrentMoveItem', function (data) {
+			if( data.indexFrom == null || 
+				data.indexTo == null ||
+				_playlist[data.indexFrom] == null ) {
+				_socketEvents.serverError(socket, "Missing required parameters or invalid index.");
+				return;
+			}
+			_mpdClient.move([data.indexFrom, data.indexTo], function (err) {
+				if( err ) {
+					_socketEvents.serverError(socket, "Error moving item in playlist: "+err);
+					return;
+				}
+				// Push entire playlist or move event ?
+				// _socketEvents.serverPlaylistCurrentMoveItem(socket, data.indexFrom, data.indexTo);
+				// _socketEvents.serverPlaylistCurrentMoveItem(socket.broadcast, data.indexFrom, data.indexTo);
+			});
 		});
 
 		// clientPlaylistSaveCurrent

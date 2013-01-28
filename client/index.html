@@ -12,11 +12,13 @@
 		<a href="#" class="volume" rel="100">100</a>
 		
 		<br>
-		<div id="logger"></div>
+		<div id="logger" style="float:left; width:60%;"></div>
+		<div id="playlist" style="float:right; width: 39%;"></div>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript">
 			var items = {};
+			var playlist = [];
 			var socket = io.connect();
 			socket.on('serverItems', function (data) {
 				for( i in data.items ) {
@@ -27,6 +29,16 @@
 					$('#logger').prepend('<a href="#" onclick="addItem(\''+i+'\');">'+data.items[i].title+'</a><br>');
 				}
 			});
+
+			socket.on('serverCurrentPlaylist', function (data) {
+				playlist.length = 0;
+				$('#playlist').html('');
+				for( i in data.playlist ) {
+					playlist[i] = items[data.playlist[i]];
+					$('#playlist').append(playlist[i].artist+' - '+playlist[i].title+'<br>');
+				}
+			});
+
 			socket.on('serverPlaylistCurrentAddItem', function (data) {
 				$('#logger').prepend('Added '+data.hash+' = '+items[data.hash].title+'<br>');
 			});
