@@ -1,0 +1,11 @@
+{
+  "name": "nodio",
+  "version": "0.0.1",
+  "main": "app.js",
+  "description": "Node.js application for serving up and controlling your music library",
+  "dependencies": {
+    "express": "3.x",
+    "socket.io": "0.9.x",
+    "komponist": "0.0.3"
+  }
+}
