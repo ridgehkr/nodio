@@ -4,6 +4,13 @@
 		<a href="#" id="play">Play</a> 
 		<a href="#" id="pause">Pause</a> 
 		<a href="#" id="next">Next</a> 
+		VOLUME: 
+		<a href="#" class="volume" rel="0">0</a>
+		<a href="#" class="volume" rel="25">25</a>
+		<a href="#" class="volume" rel="50">50</a>
+		<a href="#" class="volume" rel="75">75</a>
+		<a href="#" class="volume" rel="100">100</a>
+		
 		<br>
 		<div id="logger"></div>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -20,7 +27,7 @@
 					$('#logger').prepend('<a href="#" onclick="addItem(\''+i+'\');">'+data.items[i].title+'</a><br>');
 				}
 			});
-			socket.on('serverPlaylistAddItem', function (data) {
+			socket.on('serverPlaylistCurrentAddItem', function (data) {
 				$('#logger').prepend('Added '+data.hash+' = '+items[data.hash].title+'<br>');
 			});
 			socket.on('serverPlayerStatus', function (data) {
@@ -29,11 +36,13 @@
 					items[data.playerStatus.currentItem] ) {
 					song = items[data.playerStatus.currentItem].title;
 				}
-				$('#logger').prepend('Status update: '+data.playerStatus.state+' / '+song+'<br>');
+				$('#logger').prepend('Status update: '+data.playerStatus.state+' / '+song+' / Volume: '+data.playerStatus.volume+'<br>');
+			});
+			socket.on('serverError', function (data) {
+				$('#logger').prepend('ERROR: '+data.error+"<br>");
 			});
 			function addItem(hash) {
-				console.log('a');
-				socket.emit('clientPlaylistAddItem', {
+				socket.emit('clientPlaylistCurrentAddItem', {
 					hash: hash
 				});
 			}
@@ -48,6 +57,11 @@
 			});
 			$('#next').click(function() {
 				socket.emit('clientNext',{});
+			});
+			$('.volume').click(function() {
+				socket.emit('clientVolume', {
+					volume: $(this).attr('rel')
+				});
 			});
 		</script>
 	</body>
