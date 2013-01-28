@@ -13,7 +13,7 @@
 /build
 
 # Ignore Sass' cache
-/.sass-cache
+.sass-cache
 
 # OS X
 .DS_Store
