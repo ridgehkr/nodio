@@ -62,6 +62,9 @@ end
 # LiveReload
 activate :livereload
 
+# Sprockets
+activate :sprockets
+
 # Change the CSS directory
 set :css_dir, "css"
 

@@ -114,3 +114,4 @@ PLATFORMS
 DEPENDENCIES
   middleman (~> 3.0.11)
   middleman-livereload
+  middleman-sprockets

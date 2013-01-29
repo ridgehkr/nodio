@@ -1,10 +1,14 @@
 class Nodio
-	constructor: () ->
-		console?.log 'app constructor'
-		# @socket = io.connect('hostname here')
 
-		# @socket.on 'serverEvent', (data) ->
-			# Do something;
+	constructor: () ->
+
+		# @socket = io.connect()
+
+		@song_queue = new window.Nodio.models.Queue()
+		song = new window.Nodio.models.Song()
+		@song_queue.add( song )
 
 $ ->
-	app = new Nodio()
+	nodio = new Nodio()
+
+	console?.log 'Application loaded.'
