@@ -13,18 +13,23 @@ exports = module.exports = function(params) {
 	}
 
 	_app.get('/css/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/css/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build/css/'+req.params[0]);
 	});
 
 	_app.get('/js/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/js/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build/js/'+req.params[0]);
 	});
 	
 	_app.get('/images/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/images/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build/images/'+req.params[0]);
+	});
+
+	_app.get('/index_demo.html', function (req, res) {
+	  res.sendfile(_baseDirectory + '/index_demo.html');
 	});
 
 	_app.get('/', function (req, res) {
-	  res.sendfile(_baseDirectory + '/index.html');
+	  res.sendfile(_baseDirectory + '/build/index.html');
 	});
+
 }
