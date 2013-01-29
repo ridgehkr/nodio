@@ -3,7 +3,7 @@
 //=====================================
 
 .m-meta-bar {
-	background: #222;
+	background: $text-color;
 	color: white;
 	margin: 0;
 	padding: 8px 0;
@@ -30,13 +30,22 @@
 	text-decoration: none;
 	padding: 4px 6px;
 	@include inline-block;
+	position: relative;
 	i[class^='icon-'] {
 		@include transition-duration(1s);
-		width: em(17px);
-		height: em(17px);
+		width: 14px;
+		height: 14px;
 		@include inline-block;
-		line-height: em(17px);
+		line-height: 14px;
 		vertical-align: middle;
+		position: relative;
+		&:before {
+			margin: 0;
+			height: 14px;
+			line-height: 14px;
+			text-align: center;
+			vertical-align: top;
+		}
 	}
 	&:hover {
 		i[class^='icon-'] {

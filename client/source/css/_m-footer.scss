@@ -1,3 +1,71 @@
 //=====================================
 // for modules only found in the footer
 //=====================================
+
+#m-bottom-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: $text-color;
+	color: white;
+	a {
+		@include link-colors(#fff, #fff, #fff, #fff, #fff);
+	}
+}
+
+.m-song-queue {
+	padding: 0;
+	margin: 12px 0;
+}
+
+.m-song-queue-item {
+	@include inline-block;
+	vertical-align: top;
+	font-size: small;
+	max-width: 100px;
+	background-color: lighten($text-color, 10%);
+	padding: 8px;
+	position: relative;
+	@include border-radius(5px);
+	margin-left: 34px;
+	.icon-play {
+		position: absolute;
+		left: -22px;
+		top: 50%;
+		margin-top: -13px;
+		text-align: center;
+		padding: 4px 4px 2px;
+		display: block;
+		height: 26px;
+		line-height: 18px;
+		width: 26px;
+		@include opacity(1);
+		@include link-colors(#fff, #fff, #fff, #fff, #fff);
+		@include border-top-left-radius(5px);
+		@include border-bottom-left-radius(5px);
+		background: lighten($text-color, 10%);
+	}
+	a {
+		text-decoration: none;
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		text-indent: -9999em;
+	}
+	.song, .artist {
+		display: block;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.song {
+		font-weight: bold;
+		margin-bottom: 4px;
+	}
+}
