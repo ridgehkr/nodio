@@ -9,6 +9,7 @@
 	right: 0;
 	background: $text-color;
 	color: white;
+	@include single-box-shadow(#000, 0, 0, 8px, 0, false);
 	a {
 		@include link-colors(#fff, #fff, #fff, #fff, #fff);
 	}

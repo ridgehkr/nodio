@@ -33,12 +33,3 @@
 					%a.row-action{ :href => '#' }
 						%i.icon-play-circle2.icon
 						=lorem.words 4
-#m-bottom-bar
-	.l-container
-		%ol.m-song-queue
-			- for i in 1..5
-				%li.m-song-queue-item
-					%i.icon-play=link_to '', '#'
-					%a{ :href => '#' } Play (song name)
-					%span.song=lorem.words(3)
-					%span.artist=lorem.words(2)

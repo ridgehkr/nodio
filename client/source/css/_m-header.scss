@@ -4,6 +4,7 @@
 
 .m-meta-bar {
 	background: $text-color;
+	@include single-box-shadow(#000, 0, 0, 8px, 0, false);
 	color: white;
 	margin: 0;
 	padding: 8px 0;
