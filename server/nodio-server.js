@@ -113,6 +113,9 @@ exports = module.exports = function(params) {
 		} else if ( updateEvent == "playlist" ) {
 			_updatePlaylist(function() {
 				_socketEvents.serverCurrentPlaylist(_io.sockets, _playlist);
+				_updatePlayerStatus(function() {
+					_socketEvents.serverPlayerStatus(_io.sockets,_playerStatus);
+				});
 			});
 		}
 	});

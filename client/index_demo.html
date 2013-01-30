@@ -4,13 +4,15 @@
 		<a href="#" id="play">Play</a> 
 		<a href="#" id="pause">Pause</a> 
 		<a href="#" id="next">Next</a> 
-		VOLUME: 
+		: 
+		<a href="#" id="clear">Clear Playlist</a>
+		<!-- VOLUME: 
 		<a href="#" class="volume" rel="0">0</a>
 		<a href="#" class="volume" rel="25">25</a>
 		<a href="#" class="volume" rel="50">50</a>
 		<a href="#" class="volume" rel="75">75</a>
 		<a href="#" class="volume" rel="100">100</a>
-		
+		-->
 		<br>
 		<div id="logger" style="float:left; width:60%;"></div>
 		<div id="playlist" style="float:right; width: 39%;"></div>
@@ -20,6 +22,8 @@
 			var items = {};
 			var playlist = [];
 			var socket = io.connect();
+			var playlistCurrentIndex = null;
+			var playlistCurrentIndex = null;
 			socket.on('serverItems', function (data) {
 				for( i in data.items ) {
 					items[i] = {};
@@ -30,13 +34,24 @@
 				}
 			});
 
+			function drawPlaylist() {
+				// playlistCurrentIndex
+				$('#playlist').html('');
+				for( i in playlist ) {
+					if( parseInt(i) == parseInt(playlistCurrentIndex) ) {
+						$('#playlist').append('<span style="color:red;">'+playlist[i].artist+' - '+playlist[i].title+'</span><br>');
+					} else {
+						$('#playlist').append(playlist[i].artist+' - '+playlist[i].title+'<br>');	
+					}
+				}
+			}
+
 			socket.on('serverCurrentPlaylist', function (data) {
 				playlist.length = 0;
-				$('#playlist').html('');
 				for( i in data.playlist ) {
 					playlist[i] = items[data.playlist[i]];
-					$('#playlist').append(playlist[i].artist+' - '+playlist[i].title+'<br>');
 				}
+				drawPlaylist();
 			});
 
 			socket.on('serverPlaylistCurrentAddItem', function (data) {
@@ -48,7 +63,9 @@
 					items[data.playerStatus.currentItem] ) {
 					song = items[data.playerStatus.currentItem].title;
 				}
+				playlistCurrentIndex = data.playerStatus.playlistCurrentItemIndex;
 				$('#logger').prepend('Status update: '+data.playerStatus.state+' / '+song+' / Volume: '+data.playerStatus.volume+'<br>');
+				drawPlaylist();
 			});
 			socket.on('serverError', function (data) {
 				$('#logger').prepend('ERROR: '+data.error+"<br>");
@@ -74,6 +91,9 @@
 				socket.emit('clientVolume', {
 					volume: $(this).attr('rel')
 				});
+			});
+			$('#clear').click(function() {
+				socket.emit('clientPlaylistCurrentClear',{});
 			});
 		</script>
 	</body>
