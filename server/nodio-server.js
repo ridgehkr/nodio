@@ -43,9 +43,10 @@ exports = module.exports = function(params) {
 			_playerStatus.random = status.random != null && status.random == "1" ? true : false;
 			_playerStatus.volume = status.volume != null && status.volume >= 0 ? status.volume : 50;
 			_playerStatus.elapsed = status.elapsed != null ? parseInt(status.elapsed) : 0;
+			_playerStatus.playlistCurrentItemIndex = status.song != null ? parseInt(status.song) : 0;
 			_mpdClient.currentsong(function (err, item) {
 				if( item.file != null ) {
-					_playerStatus.currentItem = _generateItemHash(item.file);
+					_playerStatus.playlistCurrentItemHash = _generateItemHash(item.file);
 					callback();
 				}
 			});
@@ -121,6 +122,8 @@ exports = module.exports = function(params) {
 		_socketEvents.serverItems(socket, _items);
 
 		_socketEvents.serverCurrentPlaylist(socket, _playlist);
+
+		_socketEvents.serverPlayerStatus(socket, _playerStatus);
 		
 		socket.on('clientVolume', function (data) {
 			if( data.volume == null ) {
@@ -168,6 +171,10 @@ exports = module.exports = function(params) {
 			});
 		});
 
+		socket.on('clientPlaylistCurrentClear', function (data) {
+			_mpdClient.clear();
+		});
+
 		socket.on('clientPlaylistCurrentAddItem', function (data) {
 			if( data.hash != null &&
 				_itemFiles[data.hash] != null ) {
@@ -194,9 +201,6 @@ exports = module.exports = function(params) {
 					_socketEvents.serverError(socket, "Error moving item in playlist: "+err);
 					return;
 				}
-				// Push entire playlist or move event ?
-				// _socketEvents.serverPlaylistCurrentMoveItem(socket, data.indexFrom, data.indexTo);
-				// _socketEvents.serverPlaylistCurrentMoveItem(socket.broadcast, data.indexFrom, data.indexTo);
 			});
 		});
 
