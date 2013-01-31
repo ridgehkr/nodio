@@ -15,7 +15,6 @@ yepnope([
 			yepnope 'js/libs/jquery-1.9.0.min.js'
 	},
 	{
-		load: 'js/script.js'
-		# '/socket.io/socket.io.js',
+		load: ['/socket.io/socket.io.js', 'js/script.js']
 	}
 ])

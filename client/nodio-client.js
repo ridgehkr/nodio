@@ -24,6 +24,10 @@ exports = module.exports = function(params) {
 		res.sendfile(_baseDirectory+'/build/images/'+req.params[0]);
 	});
 
+	_app.get('/fonts/*', function (req, res) {
+		res.sendfile(_baseDirectory+'/build/fonts/'+req.params[0]);
+	});
+
 	_app.get('/index_demo.html', function (req, res) {
 	  res.sendfile(_baseDirectory + '/index_demo.html');
 	});

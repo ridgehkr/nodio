@@ -21,7 +21,7 @@ mpd.createConnection(function(err, mpdClient) {
 		throw new Error("Error connecting to MPD: "+err);
 	}
 
-	// Init world server here.
+	// Init music server here.
 	var nodioServer = require('./server/nodio-server')({
 		io: io,
 		mpdClient: mpdClient,

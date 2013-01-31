@@ -27,9 +27,5 @@
 			%a.m-hr-a{ :href => '#' }
 				%i.icon-music
 				Songs
-		%ul.m-list
-			- for i in 1..60
-				%li.row
-					%a.row-action{ :href => '#' }
-						%i.icon-play-circle2.icon
-						=lorem.words 4
+		%ul.m-list#song-list
+			

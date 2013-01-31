@@ -1,11 +1,6 @@
 (function() {
-  var _ref;
 
-  if ((_ref = window.Nodio) == null) {
-    window.Nodio = {};
-  }
-
-  window.Nodio.Song = Backbone.Model.extend({
+  window.Nodio.models.Song = Backbone.Model.extend({
     defaults: {
       title: '',
       artist: '',
@@ -16,8 +11,8 @@
     }
   });
 
-  window.Nodio.Queue = Backbone.Collection.extend({
-    model: window.Nodio.Song
+  window.Nodio.models.Queue = Backbone.Collection.extend({
+    model: window.Nodio.models.Song
   });
 
 }).call(this);
