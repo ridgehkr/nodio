@@ -12,7 +12,7 @@
 
   yepnope([
     {
-      load: ['js/backbone-loader.js', '//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js'],
+      load: ['//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js'],
       complete: function() {
         if (!window.jQuery) {
           return yepnope('js/libs/jquery-1.9.0.min.js');

@@ -15,4 +15,16 @@
     model: window.Nodio.models.Song
   });
 
+  window.Nodio.models.SongList = Backbone.View.extend({
+    tagName: 'ul',
+    className: 'm-list',
+    events: {
+      'click .row-action': 'play-song'
+    },
+    initialize: function() {
+      return this.listenTo(this.model, 'change', this.render);
+    },
+    render: function() {}
+  });
+
 }).call(this);

@@ -30,6 +30,7 @@
 					for( k in data.items[i] ) {
 						items[i][k] = data.items[i][k];
 					}
+					console.log(data.items[i]);
 					$('#logger').prepend('<a href="#" onclick="addItem(\''+i+'\');">'+data.items[i].title+'</a><br>');
 				}
 			});

@@ -9,7 +9,8 @@ window.Nodio ?=
 yepnope([
 	{
 	# load the application
-	load: ['js/backbone-loader.js', '//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js']
+	# took out 'js/backbone-loader.js'
+	load: ['//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js']
 	complete: ->
 		if !window.jQuery
 			yepnope 'js/libs/jquery-1.9.0.min.js'
