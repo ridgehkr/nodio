@@ -35,14 +35,15 @@ class Song
 		@artist = artist
 		@duration = duration
 
-# end Media Items
-
 # A group of songs. Could represent any sequence of song items
+# @param songs: an array of Song instances
 class SongCollection
 	constructor: (@songs) ->
 
 	add: (song) ->
 		@songs.push song
+
+# end Media Items
 
 
 # Application
