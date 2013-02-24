@@ -174,8 +174,26 @@ exports = module.exports = function(params) {
 			});
 		});
 
+		socket.on('clientPlaylistSeek', function (data) {
+			_mpdClient.play( [data.index ] , function (err) {
+				if( err ) {
+					_socketEvents.serverError(socket, "Error seeking to playlist item: "+err);
+				} else {
+					_socketEvents.serverPlayerStatus(socket, _playerStatus);
+					_socketEvents.serverPlayerStatus(socket.broadcast, _playerStatus);
+				}
+			});
+		});
+
 		socket.on('clientPlaylistCurrentClear', function (data) {
-			_mpdClient.clear();
+			_mpdClient.clear(function (err) {	
+				_updatePlaylist(function() {
+					_socketEvents.serverCurrentPlaylist(_io.sockets, _playlist);
+					_updatePlayerStatus(function() {
+						_socketEvents.serverPlayerStatus(_io.sockets,_playerStatus);
+					});
+				});
+			});
 		});
 
 		socket.on('clientPlaylistCurrentAddItem', function (data) {

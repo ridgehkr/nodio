@@ -13,19 +13,19 @@ exports = module.exports = function(params) {
 	}
 
 	_app.get('/css/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/build/css/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build-fork/css/'+req.params[0]);
 	});
 
 	_app.get('/js/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/build/js/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build-fork/js/'+req.params[0]);
 	});
 	
 	_app.get('/images/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/build/images/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build-fork/images/'+req.params[0]);
 	});
 
 	_app.get('/fonts/*', function (req, res) {
-		res.sendfile(_baseDirectory+'/build/fonts/'+req.params[0]);
+		res.sendfile(_baseDirectory+'/build-fork/fonts/'+req.params[0]);
 	});
 
 	_app.get('/index_demo.html', function (req, res) {
@@ -33,7 +33,7 @@ exports = module.exports = function(params) {
 	});
 
 	_app.get('/', function (req, res) {
-	  res.sendfile(_baseDirectory + '/build/index.html');
+	  res.sendfile(_baseDirectory + '/build-fork/index.html');
 	});
 
 }
